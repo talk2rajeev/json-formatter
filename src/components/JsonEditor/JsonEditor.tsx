@@ -1,9 +1,10 @@
 import { useState, useRef } from 'react';
 import Editor from '@monaco-editor/react';
 import type { editor } from 'monaco-editor';
+import ErrorAlert from '../ErrorAlert/ErrorAlert';
 
 const Test = () => {
-  const [jsonContent, setJsonContent] = useState('{\n  "name": "John Doe",\n  "age": 30\n}');
+  const [jsonContent, setJsonContent] = useState('');
   const [error, setError] = useState<string>();
   const editorRef = useRef<editor.IStandaloneCodeEditor>(null);
 
@@ -12,6 +13,7 @@ const Test = () => {
   };
 
   const formatJson = () => {
+    console.log('format json start');
     try {
       const json = JSON.parse(jsonContent);
       const formatted = JSON.stringify(json, null, 2);
@@ -33,30 +35,27 @@ const Test = () => {
     setError('');
   };
 
+  const isJsonFormatterButtonDisabled = !jsonContent;
+  console.log('isJsonFormatterButtonDisabled > ', isJsonFormatterButtonDisabled);
+
   return (
     <div className="flex flex-col gap-4 p-4 h-screen">
-      {error && (
-        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md shadow-md flex justify-between items-center">
-          <div>
-            <p className="font-bold">Invalid JSON</p>
-            <p>{error}</p>
-          </div>
-          <button
-            onClick={closeError}
-            className="text-red-700 hover:text-red-900 font-bold"
-            aria-label="Close alert"
-          >
-            ✕
-          </button>
-        </div>
-      )}
+      {error && <ErrorAlert msg={error} closeError={closeError} />}
       <div className="flex justify-end">
-        <button
+        {
+          isJsonFormatterButtonDisabled ? <button
           onClick={formatJson}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 disabled:text-gray-200"
+          disabled
+        >
+          Format JSON
+        </button> : <button
+          onClick={formatJson}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
         >
           Format JSON
         </button>
+        }
       </div>
       <Editor
         height="80vh"
@@ -68,7 +67,7 @@ const Test = () => {
         options={{
           minimap: { enabled: true },
           scrollBeyondLastLine: false,
-          fontSize: 14,
+          fontSize: 13,
           automaticLayout: true,
         }}
       />
