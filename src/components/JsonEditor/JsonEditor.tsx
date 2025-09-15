@@ -3,7 +3,7 @@ import Editor from '@monaco-editor/react';
 import type { editor } from 'monaco-editor';
 import ErrorAlert from '../ErrorAlert/ErrorAlert';
 
-const Test = () => {
+const JsonEditor = () => {
   const [jsonContent, setJsonContent] = useState('');
   const [error, setError] = useState<string>();
   const editorRef = useRef<editor.IStandaloneCodeEditor>(null);
@@ -75,4 +75,4 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default JsonEditor;
