@@ -38,6 +38,12 @@ const JsonEditor = () => {
   const isJsonFormatterButtonDisabled = !jsonContent;
   console.log('isJsonFormatterButtonDisabled > ', isJsonFormatterButtonDisabled);
 
+  const handleEditorChange = (value: string | undefined) => {
+    setJsonContent(value || '');
+  }
+
+  
+
   return (
     <div className="flex flex-col gap-4 p-4 h-screen">
       {error && <ErrorAlert msg={error} closeError={closeError} />}
@@ -62,7 +68,7 @@ const JsonEditor = () => {
         language="json"
         theme="vs-dark"
         value={jsonContent}
-        onChange={(value) => setJsonContent(value || '')}
+        onChange={handleEditorChange}
         onMount={handleEditorDidMount}
         options={{
           minimap: { enabled: true },
