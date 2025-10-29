@@ -6,8 +6,6 @@ import type { editor } from 'monaco-editor';
 
 const JsonCompare = () => {
 
-  const diffEditorRef = useRef<editor.IStandaloneDiffEditor | null>(null);
-
   const originalModelRef = useRef<editor.ITextModel | null>(null);
   const modifiedModelRef = useRef<editor.ITextModel | null>(null);
   // const [theme, setTheme] = useState<Theme>(themes[0]);
@@ -37,11 +35,8 @@ const JsonCompare = () => {
   }, [monaco]);
 
   const handleEditorDidMount = (editorInstance: editor.IStandaloneDiffEditor) => {
-    diffEditorRef.current = editorInstance;
     editorInstance.getOriginalEditor().updateOptions({ readOnly: false });
-    editorInstance.getModifiedEditor().updateOptions({ readOnly: false });
-
-    
+    console.log()
   };
 
   // const handleSetTheme = (value: Theme) => {
